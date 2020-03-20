@@ -85,6 +85,18 @@ public class Player : MonoBehaviour
                 boost.transform.eulerAngles = new Vector3(0, 0, 180);
                 boost.Play();
             }
+
+            if (Input.GetMouseButtonDown(1) && dashCharges >= 1)
+            {
+
+                direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+                direction = direction.normalized;
+                dashUICharges[dashCharges - 1].gameObject.SetActive(false);
+                dashCharges--;
+                camAnim.SetTrigger("New Trigger 0");
+                boost.transform.eulerAngles =  Quaternion.LookRotation(-direction,Vector3.up).eulerAngles;
+                boost.Play();
+            }
        }
        else
        {
@@ -112,7 +124,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_body.gravityScale == 0 && direction == Vector2.zero) //write a different check here, this is only temp
+        if (_body.gravityScale == 0f && direction == Vector2.zero) //write a different check here, this is only temp
         {
             _body.velocity = Vector2.zero;
         }
